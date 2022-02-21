@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,26 +6,63 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     CharacterController characterController;
-    private Vector3 motion;
-    public float speed = 3.0f;
+
+    Vector3 playerMove;
+    [SerializeField]
+    private float speed;//playerSpeed
+    public float playerJumpForce;
+    public float playerVelocity = 0;
+    public float gravity;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
     }
 
-    void Start()
+    private void Start()
     {
-        
+
     }
 
     void Update()
     {
-        motion = new Vector3(0, 0, 0);
-        motion = transform.forward;
-        motion.Normalize();
+        playerMove = Vector3.zero;
+        playerMove = transform.forward;
 
-        motion = motion * speed * Time.deltaTime;
-        characterController.Move(motion);
+        if (characterController.isGrounded)
+        {
+            playerVelocity = 0f;
+            jump();
+        }
+        else
+        {
+            gravity = 30f;
+            playerVelocity -= gravity * Time.deltaTime;
+        }
+
+
+        playerMove.Normalize();
+
+        playerMove *= speed;
+        playerMove.y = playerVelocity;
+
+        characterController.Move(playerMove * Time.deltaTime);
+    }
+
+    private void jump()
+    {
+
+
+
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        {
+            print("Jump!");
+            playerVelocity = playerJumpForce;
+        }
+
+
+
+
     }
 }
