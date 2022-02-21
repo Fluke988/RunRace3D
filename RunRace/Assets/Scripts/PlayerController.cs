@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float playerJumpForce;
     public float playerVelocity = 0;
     public float gravity;
+    private bool doubleJump;
 
     private void Awake()
     {
@@ -33,11 +34,23 @@ public class PlayerController : MonoBehaviour
         {
             playerVelocity = 0f;
             jump();
+            
         }
         else
         {
             gravity = 30f;
             playerVelocity -= gravity * Time.deltaTime;
+
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) && doubleJump)
+            {
+                print("Jump!");
+                playerVelocity += playerJumpForce * 0.5f;
+                doubleJump = false;
+                print("DoubleJump!!");
+            }
+
+
+
         }
 
 
@@ -51,18 +64,21 @@ public class PlayerController : MonoBehaviour
 
     private void jump()
     {
-
-
-
-
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             print("Jump!");
             playerVelocity = playerJumpForce;
+            doubleJump = true;
         }
+    }
 
-
-
-
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.collider.tag == "wall")
+        {
+            jump();
+            doubleJump = false;
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+        }
     }
 }
