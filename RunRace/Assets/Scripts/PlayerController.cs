@@ -6,8 +6,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     CharacterController characterController;
-
     Vector3 playerMove;
+    Animator animator;
+
     [SerializeField]
     private float speed;//playerSpeed
     public float playerJumpForce;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -33,24 +35,43 @@ public class PlayerController : MonoBehaviour
 
         if (characterController.isGrounded)
         {
+            animator.SetBool("Grounded", true);
             wallSlide = false;
             playerVelocity = 0f;
             jump();
-            
+        }
+
+        if(!wallSlide)
+        {
+            animator.SetBool("Grounded", true);
+            animator.SetBool("WallSlide", false);
+            print("Not Wall Slide!");
+            gravity = 30f;
+            playerVelocity -= gravity * Time.deltaTime;
         }
         else
         {
-            gravity = 30f;
-            playerVelocity -= gravity * Time.deltaTime;
-
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) && doubleJump)
-            {
-                print("Jump!");
-                playerVelocity += playerJumpForce * 0.5f;
-                doubleJump = false;
-                print("DoubleJump!!");
-            }
+            animator.SetBool("Grounded", false);
+            animator.SetBool("WallSlide", true);
+            print("Slide!");
+            //gravity = 15f;
+            playerVelocity -= gravity * Time.deltaTime * 0.5f;
         }
+
+        //else
+        //{
+        //    gravity = 30f;
+        //    playerVelocity -= gravity * Time.deltaTime;
+
+        //    //this logic is for double jump, will activate it if required
+        //    //if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) && doubleJump)
+        //    //{
+        //    //    print("Jump!");
+        //    //    playerVelocity += playerJumpForce * 0.5f;
+        //    //    doubleJump = false;
+        //    //    print("DoubleJump!!");
+        //    //}
+        //}
 
         playerMove.Normalize();
 
@@ -64,6 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
+            animator.SetTrigger("Jump");
             //wallSlide = false; 
             print("Jump!");
             playerVelocity = playerJumpForce;
@@ -73,20 +95,23 @@ public class PlayerController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if(hit.collider.tag == "wall")
+        if (!characterController.isGrounded)
         {
-            if(playerVelocity < 0f)
+            if (hit.collider.tag == "wall")
             {
-                print("Sliding!!");
-                wallSlide = true;
-            }
-            else if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-            {
-                //jump();
-                playerVelocity = playerJumpForce;
-                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
-                doubleJump = false;
-                wallSlide = false;
+                if (playerVelocity < 0f)
+                {
+                    print("Sliding!!");
+                    wallSlide = true;
+                }
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))             //need to fix the logic according to our game progress
+                {
+                    //jump();
+                    playerVelocity = playerJumpForce;
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+                    doubleJump = false;
+                    wallSlide = false;
+                }
             }
         }
     }
