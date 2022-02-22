@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float playerVelocity = 0;
     public float gravity;
     private bool doubleJump;
+    private bool wallSlide;
 
     private void Awake()
     {
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
         if (characterController.isGrounded)
         {
+            wallSlide = false;
             playerVelocity = 0f;
             jump();
             
@@ -48,11 +50,7 @@ public class PlayerController : MonoBehaviour
                 doubleJump = false;
                 print("DoubleJump!!");
             }
-
-
-
         }
-
 
         playerMove.Normalize();
 
@@ -66,9 +64,10 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
+            //wallSlide = false; 
             print("Jump!");
             playerVelocity = playerJumpForce;
-            doubleJump = true;
+            //doubleJump = true;
         }
     }
 
@@ -76,9 +75,19 @@ public class PlayerController : MonoBehaviour
     {
         if(hit.collider.tag == "wall")
         {
-            jump();
-            doubleJump = false;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+            if(playerVelocity < 0f)
+            {
+                print("Sliding!!");
+                wallSlide = true;
+            }
+            else if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+            {
+                //jump();
+                playerVelocity = playerJumpForce;
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+                doubleJump = false;
+                wallSlide = false;
+            }
         }
     }
 }
