@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Grounded", true);
             animator.SetBool("WallSlide", false);
-            print("Not Wall Slide!");
+            //print("Not Wall Slide!");
             gravity = 30f;
             playerVelocity -= gravity * Time.deltaTime;
         }
@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Grounded", false);
             animator.SetBool("WallSlide", true);
-            print("Slide!");
+            //print("Slide!");
             //gravity = 15f;
             playerVelocity -= gravity * Time.deltaTime * 0.5f;
         }
@@ -113,6 +113,16 @@ public class PlayerController : MonoBehaviour
                     wallSlide = false;
                 }
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.transform.tag.Equals("finish"))
+        {
+            print("Game Over!!");
+            characterController.Move(playerMove * 0f);
+            animator.SetTrigger("Dance");
         }
     }
 }
