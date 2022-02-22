@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviour
             print("Game Over!!");
             characterController.Move(playerMove * 0f);
             animator.SetTrigger("Dance");
+            Initiate.Fade("GameOverScene", Color.yellow, 1f);
         }
     }
 }
