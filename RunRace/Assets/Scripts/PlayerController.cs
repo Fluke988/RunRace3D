@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public float gravity;
     private bool doubleJump;
     private bool wallSlide;
+    private bool playerTurn;
 
     private void Awake()
     {
@@ -39,6 +40,11 @@ public class PlayerController : MonoBehaviour
             wallSlide = false;
             playerVelocity = 0f;
             jump();
+            if(playerTurn)
+            {
+                playerTurn = false;
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+            }
         }
 
         if(!wallSlide)
@@ -104,7 +110,7 @@ public class PlayerController : MonoBehaviour
                     print("Sliding!!");
                     wallSlide = true;
                 }
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))             //need to fix the logic according to our game progress
+                /*else*/if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))             //need to fix the logic according to our game progress
                 {
                     //jump();
                     playerVelocity = playerJumpForce;
@@ -114,6 +120,14 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if((transform.forward != hit.collider.transform.right) && (hit.collider.tag=="ground") && !playerTurn)
+            {
+                playerTurn = true;
+                print("Player restricted from turning");
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -121,9 +135,10 @@ public class PlayerController : MonoBehaviour
         if(other.transform.tag.Equals("finish"))
         {
             print("Game Over!!");
-            characterController.Move(playerMove * 0f);
+
+            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
             animator.SetTrigger("Dance");
-            Initiate.Fade("GameOverScene", Color.yellow, 1f);
+            //Initiate.Fade("GameOverScene", Color.yellow, 1f);
         }
     }
 }
