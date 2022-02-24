@@ -40,11 +40,11 @@ public class PlayerController : MonoBehaviour
             wallSlide = false;
             playerVelocity = 0f;
             jump();
-            if(playerTurn)
-            {
-                playerTurn = false;
-                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
-            }
+            //if(playerTurn)
+            //{
+            //    playerTurn = false;
+            //    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+            //}
         }
 
         if(!wallSlide)
@@ -120,14 +120,14 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            if((transform.forward != hit.collider.transform.right) && (hit.collider.tag=="ground") && !playerTurn)
-            {
-                playerTurn = true;
-                print("Player restricted from turning");
-            }
-        }
+        //else
+        //{
+        //    if((transform.forward != hit.collider.transform.right) && (hit.collider.tag=="ground") && !playerTurn)
+        //    {
+        //        playerTurn = true;
+        //        print("Player restricted from turning");
+        //    }
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
