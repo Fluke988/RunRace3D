@@ -6,12 +6,12 @@ public class SceneSwitcher : MonoBehaviour
 {
     public void OnPlayButtonClick()
     {
-        Initiate.Fade("GameScene", Color.white, 1f);
+        Initiate.Fade("Level1", Color.white, 1f);
     }
 
     public void OnRetryButtonClick()
     {
-        Initiate.Fade("GameScene", Color.green, 1f);
+        Initiate.Fade("Level1", Color.green, 1f);
     }
 
     public void OnBackButtonClick()
