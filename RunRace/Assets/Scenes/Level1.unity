@@ -1044,7 +1044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2644849001649205249, guid: 1765f36376db0ce4ab6ab4112c7b2e15, type: 3}
       propertyPath: m_LocalScale.x
-      value: 10.14992
+      value: 11.039053
       objectReference: {fileID: 0}
     - target: {fileID: 2644849001649205249, guid: 1765f36376db0ce4ab6ab4112c7b2e15, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1211,7 +1211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color1: {r: 0.8000001, g: 0.8000001, b: 0.054901965, a: 1}
-  color2: {r: 0, g: 0, b: 1, a: 1}
+  color2: {r: 1, g: 0.119365565, b: 0, a: 1}
   duration: 3
   cam: {fileID: 1242514798}
 --- !u!4 &1265635655 stripped
