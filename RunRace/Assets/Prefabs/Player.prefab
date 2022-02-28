@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  playerJumpForce: 35
+  playerJumpForce: 20
   playerVelocity: 0
   gravity: 30
 --- !u!1001 &6716929612876688896
@@ -290,6 +290,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1.4578967
       objectReference: {fileID: 0}
+    - target: {fileID: -1207860256365104095, guid: 27aa10c1be9cc6b4f86cf7a3c8126e42, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 727ed27673276d942974fcce04c28748, type: 2}
     - target: {fileID: -927199367670048503, guid: 27aa10c1be9cc6b4f86cf7a3c8126e42, type: 3}
       propertyPath: m_Name
       value: PlayerAnim

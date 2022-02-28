@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ground
-  - wall
+  - Ground
+  - Wall
   - finish
   layers:
   - Default
